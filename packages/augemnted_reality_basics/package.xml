@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+  <name>augemnted_reality_basics</name>
+  <version>1.0.0</version>
+  <description>The deadreckoning meta package</description>
+
+  <license>None</license>
+  <maintainer email="alzebdeh@ualberta.ca">Tianming Han</maintainer>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <!-- <build_depend>duckietown_msgs</build_depend> -->
+  <build_depend>rospy</build_depend>
+
+  <!-- <run_depend>duckietown_msgs</run_depend> -->
+  <run_depend>rospy</run_depend>
+
+</package>
