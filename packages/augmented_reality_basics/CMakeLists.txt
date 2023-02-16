@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(augemnted_reality_basics)
+project(augmented_reality_basics)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy
