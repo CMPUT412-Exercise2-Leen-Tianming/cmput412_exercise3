@@ -6,6 +6,7 @@ from duckietown.dtros import DTROS, NodeType
 from sensor_msgs.msg import CompressedImage
 import numpy as np
 import cv2
+import Augmenter
 
 
 HOST_NAME = os.environ["VEHICLE_NAME"]
@@ -32,24 +33,8 @@ class MySubscriberNode(DTROS):
         rate = rospy.Rate(10)  # in Hz
         while not rospy.is_shutdown():
             if self.image is not None:
-                load = load_calibration()
-                camera_intrinsic_dict =  load.readYamlFile("camera_intrinsic.yaml")
-
-                camera_matrix = np.array(camera_intrinsic_dict["camera_matrix"]["data"]).reshape(3,3)
-                distort_coeff = np.array(camera_intrinsic_dict["distortion_coefficients"]["data"]).reshape(5,1)
-
-                width = self.image.shape[1]
-                height = self.image.shape[0]
-
-                newmatrix, roi = cv2.getOptimalNewCameraMatrix(camera_matrix,distortion_coeff,(width,height),1, (width,height))
-                # new_image= cv2.undistort(img,camera_intrinsic_matrix,distortion_coeff,newmatrix)
-
-
-                dst = cv2.undistort(self.image, camera_matrix, distortion_coeff, None, newmatrix)
-
-                x,y,w,h = roi 
-                dst = dst[y:y+h, x:x+w]
-
+                augmenter = Augmenter.Augmenter(self.image)
+                self.image = augmenter.process_image()
                 msg = CompressedImage()
                 msg.header.seq = self.seq
                 msg.header.stamp = rospy.Time.now()
